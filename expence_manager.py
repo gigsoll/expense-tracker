@@ -12,6 +12,7 @@ class ExepnceManager():
         self.expence_list: list[Expence] = []
         self.cahcedir = user_cache_dir("expence_tracker", "gigsoll")
         self.expence_file = os.path.join(self.cahcedir, "expences.json")
+        self.read_file()
 
     def write_file(self):
         data = json.dumps(
@@ -23,6 +24,17 @@ class ExepnceManager():
 
     def add(self, expence: Expence) -> None:
         self.expence_list.append(expence)
+        self.write_file()
+
+    def delete(self, id) -> None:
+        expence: Expence
+        for expence in self.expence_list:
+            if expence.id == id:
+                print(f"Expence with id {id} was removed")
+                self.expence_list.remove(expence)
+                self.write_file()
+                return
+        print(f"Expence with id {id} wasn't found")
 
     def read_file(self) -> None:
         try:
@@ -63,8 +75,7 @@ class ExepnceManager():
 
 def main():
     em = ExepnceManager()
-    em.read_file()
-    em.add(Expence("new", 200))
+    em.delete(3)
     em.write_file()
 
 
