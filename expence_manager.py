@@ -21,6 +21,9 @@ class ExepnceManager():
         with open(self.expence_file, "w") as expence_file:
             expence_file.write(data)
 
+    def add(self, expence: Expence) -> None:
+        self.expence_list.append(expence)
+
     def read_file(self) -> None:
         try:
             with open(self.expence_file) as expence_file:
@@ -53,5 +56,17 @@ class ExepnceManager():
             except ValueError:
                 print('expence is corrupted')
                 continue
+            del expence['id']
             result.append(Expence(**expence))
         return result
+
+
+def main():
+    em = ExepnceManager()
+    em.read_file()
+    em.add(Expence("new", 200))
+    em.write_file()
+
+
+if __name__ == "__main__":
+    main()

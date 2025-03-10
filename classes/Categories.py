@@ -15,3 +15,4 @@ class Categories(Enum):
     CLOTHES = Category("Clothes", "👚", Group.IMPORTANT)
     FOOD = Category("Food", "🍞", Group.IMPORTANT)
     SCHOOL = Category("School", "🏫", Group.IMPORTANT)
+    OTHER = Category("other", "💡", Group.OTHER)
