@@ -1,5 +1,7 @@
 import os
 import json
+from tabulate import tabulate
+from typing import Any
 from dataclasses import asdict
 from classes.Expence import Expence
 from platformdirs import user_cache_dir
@@ -8,7 +10,7 @@ from classes.Category import Category, Group
 
 
 class ExepnceManager():
-    def __init__(self):
+    def __init__(self) -> None:
         self.expence_list: list[Expence] = []
         self.cahcedir = user_cache_dir("expence_tracker", "gigsoll")
         self.expence_file = os.path.join(self.cahcedir, "expences.json")
@@ -36,6 +38,12 @@ class ExepnceManager():
                 return
         print(f"Expence with id {id} wasn't found")
 
+    def show(self) -> None:
+        pretty_list = [exp.to_dict() for exp in self.expence_list]
+        print(
+            tabulate(pretty_list, headers="keys")
+        )
+
     def read_file(self) -> None:
         try:
             with open(self.expence_file) as expence_file:
@@ -53,7 +61,7 @@ class ExepnceManager():
         with open(filepath, "w") as file:
             file.write("[]")
 
-    def _format_file(self, data):
+    def _format_file(self, data: list[dict[str, Any]]):
         result = []
         for expence in data:
             category = expence['category']
@@ -75,8 +83,7 @@ class ExepnceManager():
 
 def main():
     em = ExepnceManager()
-    em.delete(3)
-    em.write_file()
+    em.show()
 
 
 if __name__ == "__main__":
