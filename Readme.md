@@ -2,13 +2,13 @@
 
 ## Main
 
-🔴 Users can add an expense with a description and amount.
+🟢 Users can add an expense with a description and amount.
 
 🔴 Users can update an expense.
 
-🔴 Users can delete an expense.
+🟢 Users can delete an expense.
 
-🔴 Users can view all expenses.
+🟢 Users can view all expenses.
 
 🔴 Users can view a summary of all expenses.
 
