@@ -1,6 +1,7 @@
 import os
 import json
 from tabulate import tabulate
+from datetime import datetime
 from typing import Any
 from dataclasses import asdict
 from classes.Expence import Expence
@@ -47,6 +48,15 @@ class ExepnceManager():
     def total_expence(self) -> None:
         total = sum([exp.amount for exp in self.expence_list])
         print(f"Toal money amound spend: {total}")
+
+    def total_by_month(self, month: int) -> float:
+        expence: Expence
+        sum: float = 0
+        for expence in self.expence_list:
+            exp_mounth = datetime.fromtimestamp(expence.timestamp).month
+            if exp_mounth == month:
+                sum += expence.amount
+        return sum
 
     def update(self, id: int, update: Expence) -> None:
         update.id = id
@@ -96,8 +106,8 @@ class ExepnceManager():
 
 def main() -> None:
     em = ExepnceManager()
-    em.update(4, Expence("New", 100, category=Categories.CARFUEL.value))
     em.show()
+    print(em.total_by_month(3))
 
 
 if __name__ == "__main__":
