@@ -44,6 +44,19 @@ class ExepnceManager():
             tabulate(pretty_list, headers="keys")
         )
 
+    def total_expence(self) -> None:
+        total = sum([exp.amount for exp in self.expence_list])
+        print(f"Toal money amound spend: {total}")
+
+    def update(self, id: int, update: Expence) -> None:
+        update.id = id
+        expence: Expence
+        for i, expence in enumerate(self.expence_list):
+            if expence.id == id:
+                self.expence_list[i] = update
+                break
+        self.write_file()
+
     def read_file(self) -> None:
         try:
             with open(self.expence_file) as expence_file:
@@ -81,8 +94,9 @@ class ExepnceManager():
         return result
 
 
-def main():
+def main() -> None:
     em = ExepnceManager()
+    em.update(4, Expence("New", 100, category=Categories.CARFUEL.value))
     em.show()
 
 
