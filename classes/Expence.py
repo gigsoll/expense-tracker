@@ -12,15 +12,15 @@ class Expence:
     amount: float
     id: int = field(default_factory=count(1).__next__)
     category: Category = Categories.OTHER.value
-    date: str = datetime.strftime(datetime.today(), "%Y-%m-%d")
-    time: str = datetime.strftime(datetime.now(), "%H:%M:%S")
+    timestamp: float = datetime.now().timestamp()
 
     def to_dict(self) -> dict[str, Any]:
+        time = datetime.fromtimestamp(self.timestamp)
         return {
             "ID": self.id,
             "Description": self.description,
             "Amount": self.amount,
             "Category": f"{self.category.emoji} {self.category.name}",
-            "date": self.date,
-            "time": self.time
+            "date": datetime.strftime(time, "%Y-%m-%d"),
+            "time": datetime.strftime(time, "%H:%M:%S")
         }
