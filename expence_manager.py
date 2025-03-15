@@ -39,11 +39,9 @@ class ExepnceManager():
                 return
         print(f"Expence with id {id} wasn't found")
 
-    def show(self) -> None:
+    def show(self) -> str:
         pretty_list = [exp.to_dict() for exp in self.expence_list]
-        print(
-            tabulate(pretty_list, headers="keys")
-        )
+        return tabulate(pretty_list, headers="keys")
 
     def total_expence(self) -> None:
         total = sum([exp.amount for exp in self.expence_list])

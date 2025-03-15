@@ -26,6 +26,7 @@ def add(description: str, amount: float, category: str) -> None:
             if cat.name == category:
                 break
         em.add(Expence(description, amount, category=cat))
+    click.echo(f"New expence '{description}' added")
 
 
 @click.command()
@@ -47,7 +48,7 @@ def delete(id: int) -> None:
 @click.command()
 def show() -> None:
     """Display all the expences"""
-    em.show()
+    click.echo(em.show())
 
 
 @click.command()
