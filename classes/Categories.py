@@ -3,8 +3,8 @@ from enum import Enum
 
 
 class Categories(Enum):
-    CARSERVICE = Category("Car fuel", "🚗", Group.CAR)
-    CARFUEL = Category("Car fuel", "⛽", Group.CAR)
+    SERVICE = Category("Car service", "🚗", Group.CAR)
+    FUEL = Category("Car fuel", "⛽", Group.CAR)
     WATER = Category("Water bill", "💧", Group.BILLS)
     GAS = Category("Gas bill", "🔥", Group.BILLS)
     ELECTRICITY = Category("Electicity bill", "⚡", Group.BILLS)
