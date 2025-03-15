@@ -29,23 +29,23 @@ class ExepnceManager():
         self.expence_list.append(expence)
         self.write_file()
 
-    def delete(self, id) -> None:
+    def delete(self, id) -> str:
         expence: Expence
         for expence in self.expence_list:
             if expence.id == id:
-                print(f"Expence with id {id} was removed")
+
                 self.expence_list.remove(expence)
                 self.write_file()
-                return
-        print(f"Expence with id {id} wasn't found")
+                return f"Expence with id {id} was removed"
+        return f"Expence with id {id} wasn't found"
 
     def show(self) -> str:
         pretty_list = [exp.to_dict() for exp in self.expence_list]
         return tabulate(pretty_list, headers="keys")
 
-    def total_expence(self) -> None:
-        total = sum([exp.amount for exp in self.expence_list])
-        print(f"Toal money amound spend: {total}")
+    def total_expence(self) -> float:
+        total: float = sum([exp.amount for exp in self.expence_list])
+        return total
 
     def total_by_month(self, month: int) -> float:
         expence: Expence
