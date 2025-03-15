@@ -17,7 +17,7 @@ class ExepnceManager():
         self.expence_file = os.path.join(self.cahcedir, "expences.json")
         self.read_file()
 
-    def write_file(self):
+    def write_file(self) -> None:
         data = json.dumps(
             [asdict(exp) for exp in self.expence_list],
             indent=4
@@ -102,13 +102,3 @@ class ExepnceManager():
             del expence['id']
             result.append(Expence(**expence))
         return result
-
-
-def main() -> None:
-    em = ExepnceManager()
-    em.show()
-    print(em.total_by_month(3))
-
-
-if __name__ == "__main__":
-    main()
