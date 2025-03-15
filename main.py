@@ -59,9 +59,16 @@ def show() -> None:
 @click.option("--all",
               is_flag=True,
               help="Total sum of spending")
-def summary(mount: int, all: bool) -> None:
+def summary(month: int, year: int, all: bool) -> None:
     """Show total sum of expences per year, month or all time"""
-    pass
+    total: float = 0
+    if year:
+        total = em.total_by_time("year", year)
+    elif month:
+        total = em.total_by_time("month", month)
+    elif all:
+        total = em.total_expence()
+    click.echo(f"Money spent: {total}")
 
 
 def get_category(category: str) -> Category:
