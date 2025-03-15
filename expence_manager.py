@@ -56,13 +56,17 @@ class ExepnceManager():
                 sum += expence.amount
         return sum
 
-    def update(self, id: int, update: Expence) -> None:
-        update.id = id
-        expence: Expence
-        for i, expence in enumerate(self.expence_list):
-            if expence.id == id:
-                self.expence_list[i] = update
-                break
+    def update(self,
+               id: int,
+               desc: str | None,
+               amount: float | None,
+               category: Category | None) -> None:
+        exp: Expence
+        for exp in self.expence_list:
+            if exp.id == id:
+                exp.description = desc if desc else exp.description
+                exp.amount = amount if amount else exp.amount
+                exp.category = category if category else exp.category
         self.write_file()
 
     def read_file(self) -> None:

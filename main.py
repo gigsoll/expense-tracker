@@ -20,29 +20,27 @@ def add(description: str, amount: float, category: str) -> None:
     if not category:
         em.add(Expence(description, amount))
     else:
-        availible: list[Category] = [cat.value for cat in Categories]
-        cat: Category
-        for cat in availible:
-            if cat.name == category:
-                break
+        cat = get_category(category)
         em.add(Expence(description, amount, category=cat))
     click.echo(f"New expence '{description}' added")
 
 
 @click.command()
+@click.argument("id", type=int)
 @click.option("--description", type=str)
 @click.option("--amount", type=float)
 @click.option("--category", type=str)
-def update(description: str, amount: float, category: str) -> None:
+def update(id: int, description: str, amount: float, category: str) -> None:
     """Update expence by ID"""
-    pass
+    cat = get_category(category) if category else None
+    em.update(id, description, amount, cat)
 
 
 @click.command()
 @click.argument("id", type=int)
 def delete(id: int) -> None:
     """Delete expence by ID"""
-    pass
+    click.echo(em.delete(id))
 
 
 @click.command()
@@ -64,6 +62,15 @@ def show() -> None:
 def summary(mount: int, all: bool) -> None:
     """Show total sum of expences per year, month or all time"""
     pass
+
+
+def get_category(category: str) -> Category:
+    availible: list[Category] = [cat.value for cat in Categories]
+    cat: Category
+    for cat in availible:
+        if cat.name == category:
+            return cat
+    return Categories.OTHER.value
 
 
 cli.add_command(add)
