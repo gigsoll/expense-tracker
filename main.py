@@ -1,4 +1,9 @@
 import click
+from classes.Categories import Categories
+from classes.Category import Category
+from classes.Expence import Expence
+from expence_manager import ExepnceManager
+em = ExepnceManager()
 
 
 @click.group()
@@ -8,11 +13,19 @@ def cli() -> None:
 
 @click.command()
 @click.argument("description", type=str)
-@click.argument("amount", type=int)
+@click.argument("amount", type=float)
 @click.option("--category", type=str)
-def add(description: str, amount: str, category: str) -> None:
+def add(description: str, amount: float, category: str) -> None:
     """Add new expence to expence tracker"""
-    pass
+    if not category:
+        em.add(Expence(description, amount))
+    else:
+        availible: list[Category] = [cat.value for cat in Categories]
+        cat: Category
+        for cat in availible:
+            if cat.name == category:
+                break
+        em.add(Expence(description, amount, category=cat))
 
 
 @click.command()
@@ -34,7 +47,7 @@ def delete(id: int) -> None:
 @click.command()
 def show() -> None:
     """Display all the expences"""
-    pass
+    em.show()
 
 
 @click.command()
