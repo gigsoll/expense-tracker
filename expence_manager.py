@@ -43,6 +43,10 @@ class ExepnceManager():
         pretty_list = [exp.to_dict() for exp in self.expence_list]
         return tabulate(pretty_list, headers="keys")
 
+    def show_by_category(self, cat: Category) -> str:
+        res = [ex.to_dict() for ex in self.expence_list if ex.category == cat]
+        return tabulate(res, headers="keys")
+
     def total_expence(self) -> float:
         total: float = sum([exp.amount for exp in self.expence_list])
         return total

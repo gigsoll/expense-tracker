@@ -44,9 +44,15 @@ def delete(id: int) -> None:
 
 
 @click.command()
-def show() -> None:
+@click.option("--category", type=str)
+def show(category) -> None:
     """Display all the expences"""
-    click.echo(em.show())
+    if category:
+        category = get_category(category)
+        result = em.show_by_category(category)
+    else:
+        result = em.show()
+    click.echo(result)
 
 
 @click.command()
