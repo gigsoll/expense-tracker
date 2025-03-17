@@ -39,8 +39,11 @@ class ExepnceManager():
                 return f"Expence with id {id} was removed"
         return f"Expence with id {id} wasn't found"
 
+    def _to_pretty_dict(self) -> list[dict[str, Any]]:
+        return [exp.to_dict() for exp in self.expence_list]
+
     def show(self) -> str:
-        pretty_list = [exp.to_dict() for exp in self.expence_list]
+        pretty_list: list[dict[str, Any]] = self._to_pretty_dict()
         return tabulate(pretty_list, headers="keys")
 
     def show_by_category(self, cat: Category) -> str:

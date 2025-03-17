@@ -1,4 +1,6 @@
+import os
 import click
+from datetime import datetime as dt
 from classes.Categories import Categories
 from classes.Category import Category
 from classes.Expence import Expence
@@ -77,6 +79,32 @@ def summary(month: int, year: int, all: bool) -> None:
     click.echo(f"Money spent: {total}")
 
 
+@click.command()
+@click.argument("path", type=click.Path())
+@click.option("--name", type=str)
+def export(path, name: str):
+    "Exports your expences to .csv format"
+    is_dir = os.path.isdir(path)
+    if is_dir and not name:
+        filename = int(round(dt.timestamp(dt.now()) * 10**3))
+        name = str(filename) + ".csv"
+    split_name: list[str] = name.split(".")
+    if name and split_name[-1] != "csv":
+        split_name.append("csv")
+        name = '.'.join(split_name)
+    pretty: list[dict] = em._to_pretty_dict()
+
+    try:
+        with open(os.path.join(path, name), "w", encoding="utf-8") as ds:
+            ds.write(";".join(list(pretty[0].keys())) + "\n")
+            for el in pretty:
+                ds.write(";".join([str(el) for el in el.values()]) + "\n")
+    except FileNotFoundError:
+        print("File not found")
+    except NotADirectoryError:
+        print("You should write file into an existing directory")
+
+
 def get_category(category: str) -> Category:
     availible: list[Category] = [cat.value for cat in Categories]
     cat: Category
@@ -91,6 +119,7 @@ cli.add_command(update)
 cli.add_command(delete)
 cli.add_command(summary)
 cli.add_command(show)
+cli.add_command(export)
 
 
 if __name__ == "__main__":
