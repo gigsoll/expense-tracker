@@ -27,9 +27,13 @@ class ExepnceManager():
         with open(self.expence_file, "w") as expence_file:
             expence_file.write(data)
 
-    def add(self, expence: Expence) -> None:
+    def add(self, expence: Expence) -> str:
         self.expence_list.append(expence)
+        total = self.total_by_time(datetime.now().month)
         self.write_file()
+        if total >= self.limit:
+            return f"You have went over of your budget by {total - self.limit}"
+        return f"New expence '{expence.description}' added"
 
     def delete(self, id) -> str:
         expence: Expence

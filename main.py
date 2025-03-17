@@ -20,11 +20,11 @@ def cli() -> None:
 def add(description: str, amount: float, category: str) -> None:
     """Add new expence to expence tracker"""
     if not category:
-        em.add(Expence(description, amount))
+        res = em.add(Expence(description, amount))
     else:
         cat = get_category(category)
-        em.add(Expence(description, amount, category=cat))
-    click.echo(f"New expence '{description}' added")
+        res = em.add(Expence(description, amount, category=cat))
+    click.echo(res)
 
 
 @click.command()
