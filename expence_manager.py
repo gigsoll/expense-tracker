@@ -13,8 +13,10 @@ from classes.Category import Category, Group
 class ExepnceManager():
     def __init__(self) -> None:
         self.expence_list: list[Expence] = []
+        self.limit: int = 0
         self.cahcedir = user_cache_dir("expence_tracker", "gigsoll")
         self.expence_file = os.path.join(self.cahcedir, "expences.json")
+        self.limit_file = os.path.join(self.cahcedir, "limit.txt")
         self.read_file()
 
     def write_file(self) -> None:
@@ -78,22 +80,45 @@ class ExepnceManager():
                 exp.category = category if category else exp.category
         self.write_file()
 
+    def update_limit(self, limit):
+        self.limit = limit
+        self.write_limit()
+
+    def write_limit(self):
+        try:
+            with open(self.limit_file) as ds:
+                self.limit = float(ds)
+        except FileNotFoundError:
+            print("File not found")
+            self._create_file(self.limit_file, "0")
+        except ValueError:
+            print("File is broken")
+            self._create_file(self.limit_file, "0")
+
     def read_file(self) -> None:
         try:
             with open(self.expence_file) as expence_file:
                 data = json.load(expence_file)
                 self.expence_list = self._format_file(data)
-
         except FileNotFoundError:
             print("File no found")
             self._create_file(self.expence_file)
+        try:
+            with open(self.limit_file, "r") as lf:
+                self.limit = int(lf.read())
+        except FileNotFoundError:
+            print("File no found")
+            self._create_file(self.limit_file, "0")
+        except ValueError:
+            print("Limit file is corupted")
+            self._create_file(self.limit_file, "0")
 
-    def _create_file(self, filepath) -> None:
+    def _create_file(self, filepath, content="[]") -> None:
         folder = os.path.normpath(os.path.join(filepath, '..'))
         if not os.path.isdir(folder):
             os.mkdir(folder)
         with open(filepath, "w") as file:
-            file.write("[]")
+            file.write(content)
 
     def _format_file(self, data: list[dict[str, Any]]):
         result = []
