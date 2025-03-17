@@ -56,14 +56,16 @@ class ExepnceManager():
         total: float = sum([exp.amount for exp in self.expence_list])
         return total
 
-    def total_by_time(self, type: str, number: int) -> float:
+    def total_by_time(self,
+                      month: int | None = None,
+                      year: int = datetime.now().year) -> float:
         expence: Expence
         sum: float = 0
         for expence in self.expence_list:
-            exp_period = getattr(
-                datetime.fromtimestamp(expence.timestamp),
-                type)
-            if exp_period == number:
+            exp_time: datetime = datetime.fromtimestamp(expence.timestamp)
+            if not month and exp_time.year == year:
+                sum += expence.amount
+            elif exp_time.month == month and exp_time.year == year:
                 sum += expence.amount
         return sum
 

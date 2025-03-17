@@ -70,12 +70,11 @@ def show(category) -> None:
 def summary(month: int, year: int, all: bool) -> None:
     """Show total sum of expences per year, month or all time"""
     total: float = 0
-    if year:
-        total = em.total_by_time("year", year)
-    elif month:
-        total = em.total_by_time("month", month)
-    elif all:
+
+    if all:
         total = em.total_expence()
+    else:
+        total = em.total_by_time(month, year)
     click.echo(f"Money spent: {total}")
 
 
