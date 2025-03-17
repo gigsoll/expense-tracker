@@ -82,7 +82,7 @@ def summary(month: int, year: int, all: bool) -> None:
 @click.argument("path", type=click.Path())
 @click.option("--name", type=str)
 def export(path, name: str):
-    "Exports your expences to .csv format"
+    """Exports your expences to .csv format"""
     is_dir = os.path.isdir(path)
     if is_dir and not name:
         filename = int(round(dt.timestamp(dt.now()) * 10**3))
@@ -104,6 +104,13 @@ def export(path, name: str):
         print("You should write file into an existing directory")
 
 
+@click.command()
+@click.argument("amount", type=int)
+def limit(amount):
+    """Change your limit amount"""
+    em.update_limit(amount)
+
+
 def get_category(category: str) -> Category:
     availible: list[Category] = [cat.value for cat in Categories]
     cat: Category
@@ -119,6 +126,7 @@ cli.add_command(delete)
 cli.add_command(summary)
 cli.add_command(show)
 cli.add_command(export)
+cli.add_command(limit)
 
 
 if __name__ == "__main__":

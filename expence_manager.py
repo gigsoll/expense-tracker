@@ -86,14 +86,14 @@ class ExepnceManager():
                 exp.category = category if category else exp.category
         self.write_file()
 
-    def update_limit(self, limit):
+    def update_limit(self, limit: int):
         self.limit = limit
         self.write_limit()
 
     def write_limit(self):
         try:
-            with open(self.limit_file) as ds:
-                self.limit = float(ds)
+            with open(self.limit_file, "w") as ds:
+                ds.write(str(self.limit))
         except FileNotFoundError:
             print("File not found")
             self._create_file(self.limit_file, "0")
